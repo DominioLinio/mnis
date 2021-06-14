@@ -231,7 +231,7 @@ int main() {
             if (opcja == 2) {
                 sf::Text predkosckulki1;
                 predkosckulki1.setFont(font);
-                predkosckulki1.setString("Predkosc kulki = const\n W inercjalnym ukladzie odniesienia, jesli na cialo nie dziala zadna sila lub sily dzialajace rownowaza sie,\n to cialo pozostaje w spoczynku lub porusza sie ruchem jednostajnym prostoliniowym.");
+                predkosckulki1.setString("Predkosc kulki = (F/m)*t \n W inercjalnym ukladzie odniesienia jesli sily dzialajace na cialo nie rownowaza sie \n(czyli wypadkowa sil Fw jest rozna od zera), to cialo porusza sie z przyspieszeniem wprost proporcjonalnym do sily\n wypadkowej, a odwrotnie proporcjonalnym do masy ciala.");
                 predkosckulki1.setCharacterSize(25);
                 predkosckulki1.setFillColor(sf::Color::White);
                 predkosckulki1.setPosition(sf::Vector2f(20.0, 600.0));
@@ -257,6 +257,7 @@ int main() {
                  //cialo.velocity.x += acceleration * deltaTime;
                  //velocity = sqrt((predkosc.x * predkosc.x) + (predkosc.y * predkosc.y));
                 window.draw(napis2);
+                window.draw(predkosckulki1);
                 cialo.update1(deltaTime);
                 cialo.Draw(window);
                 cialo.body.move(velocity1 * deltaTime);
@@ -264,7 +265,7 @@ int main() {
             if (opcja == 3) {
                 sf::Text predkosckulki2;
                 predkosckulki2.setFont(font);
-                predkosckulki2.setString("Predkosc kulki = const\n W inercjalnym ukladzie odniesienia, jesli na cialo nie dziala zadna sila lub sily dzialajace rownowaza sie,\n to cialo pozostaje w spoczynku lub porusza sie ruchem jednostajnym prostoliniowym.");
+                predkosckulki2.setString("Predkosc kulki = (F/m)*t\n Sila oporu dzialajaca na kulke = F\n Oddzialywania cial sa zawsze wzajemne. W inercjalnym ukladzie odniesienia sily wzajemnego oddzialywania\n dwoch cial maja takie same wartosci, taki sam kierunek, przeciwne zwroty i rozne punkty przylozenia\n(kazda dziala na inne cialo).");
                 predkosckulki2.setCharacterSize(25);
                 predkosckulki2.setFillColor(sf::Color::White);
                 predkosckulki2.setPosition(sf::Vector2f(20.0, 600.0));
@@ -285,7 +286,7 @@ int main() {
                 block1.Draw(window);
                 block2.Draw(window);
                 window.draw(napis3);
-
+                window.draw(predkosckulki2);
                 cialo.Draw(window);
                 cialo.body.move(velocity1 * deltaTime);
 

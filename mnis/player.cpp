@@ -9,7 +9,7 @@ Cialo::Cialo(sf::Texture* texture, float speed, float jumpHeight)
 	faceRight = true;
 
 	body.setSize(sf::Vector2f(80.0f, 80.0f));
-	body.setPosition(500.0f, 128.0f);
+	body.setPosition(400.0f, 128.0f);
 	body.setOrigin(35.0f, 35.0f);
 	body.setTexture(texture);
 
