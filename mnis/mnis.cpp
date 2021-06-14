@@ -90,9 +90,9 @@ int main() {
     velocitytext.setPosition(sf::Vector2f(10.0, 100.0));
     forcetext.setPosition(sf::Vector2f(10.0, 150.0));
     accelerationtext.setPosition(sf::Vector2f(10.0, 200.0));
-    
+
     //Wywoływanie klas obiektów
-    Cialo cialo(&cialotexture, 120.0f, 0.0f);
+    Cialo cialo(&cialotexture, 150.0f, 0.0f);
     Block block1(&blockTexture, sf::Vector2f(80.0f, 80.0f), sf::Vector2f(250.0f, 320.0f));
     Block block2(&blockTexture, sf::Vector2f(80.0f, 80.0f), sf::Vector2f(700.0f, 320.0f));
 
@@ -208,57 +208,93 @@ int main() {
         else {
             if (opcja == 1) {
                 velocity1.y += 981.0f * deltaTime;
+                sf::Text predkosckulki;
+                predkosckulki.setFont(font);
+                predkosckulki.setString("Predkosc kulki = const\n W inercjalnym ukladzie odniesienia, jesli na cialo nie dziala zadna sila lub sily dzialajace rownowaza sie,\n to cialo pozostaje w spoczynku lub porusza sie ruchem jednostajnym prostoliniowym.");
+                predkosckulki.setCharacterSize(25);
+                predkosckulki.setFillColor(sf::Color::White);
+                predkosckulki.setPosition(sf::Vector2f(20.0, 600.0));
                 
-               // acceleration = force / mass;
 
+                // acceleration = force / mass;
                 
-                
-                //cialo.velocity.x += acceleration * deltaTime;
-                //velocity = sqrt((predkosc.x * predkosc.x) + (predkosc.y * predkosc.y));
+
+
+                 //cialo.velocity.x += acceleration * deltaTime;
+                 //velocity = sqrt((predkosc.x * predkosc.x) + (predkosc.y * predkosc.y));
+                window.draw(predkosckulki);
                 window.draw(napis1);
                 cialo.update1(deltaTime);
                 cialo.Draw(window);
                 cialo.body.move(velocity1 * deltaTime);
             }
             if (opcja == 2) {
+                sf::Text predkosckulki1;
+                predkosckulki1.setFont(font);
+                predkosckulki1.setString("Predkosc kulki = const\n W inercjalnym ukladzie odniesienia, jesli na cialo nie dziala zadna sila lub sily dzialajace rownowaza sie,\n to cialo pozostaje w spoczynku lub porusza sie ruchem jednostajnym prostoliniowym.");
+                predkosckulki1.setCharacterSize(25);
+                predkosckulki1.setFillColor(sf::Color::White);
+                predkosckulki1.setPosition(sf::Vector2f(20.0, 600.0));
                 velocity1.y += 981.0f * deltaTime;
+                if (cialo.velocity.x > 0)
+                {
+                    cialo.velocity.x -= 0.02f;
+                }
+                if (cialo.velocity.x < 0)
+                {
+                    cialo.velocity.x += 0.02f;
+                }
                 
                 if (force != 0) {
                     acceleration = force / mass;
                 }
-               // if (cialo.GetVelocity() > 0) {
-                 //   acceleration -= 0.005 / mass;
-               // }
-                //else if (cialo.GetVelocity() < 0) {
-                 //   acceleration += 0.005 / mass;
-               // }
-                //cialo.velocity.x += acceleration * deltaTime;
-                //velocity = sqrt((predkosc.x * predkosc.x) + (predkosc.y * predkosc.y));
+                // if (cialo.GetVelocity() > 0) {
+                  //   acceleration -= 0.005 / mass;
+                // }
+                 //else if (cialo.GetVelocity() < 0) {
+                  //   acceleration += 0.005 / mass;
+                // }
+                 //cialo.velocity.x += acceleration * deltaTime;
+                 //velocity = sqrt((predkosc.x * predkosc.x) + (predkosc.y * predkosc.y));
                 window.draw(napis2);
                 cialo.update1(deltaTime);
                 cialo.Draw(window);
-                cialo.body.move(velocity1* deltaTime);
+                cialo.body.move(velocity1 * deltaTime);
             }
             if (opcja == 3) {
+                sf::Text predkosckulki2;
+                predkosckulki2.setFont(font);
+                predkosckulki2.setString("Predkosc kulki = const\n W inercjalnym ukladzie odniesienia, jesli na cialo nie dziala zadna sila lub sily dzialajace rownowaza sie,\n to cialo pozostaje w spoczynku lub porusza sie ruchem jednostajnym prostoliniowym.");
+                predkosckulki2.setCharacterSize(25);
+                predkosckulki2.setFillColor(sf::Color::White);
+                predkosckulki2.setPosition(sf::Vector2f(20.0, 600.0));
                 cialo.update1(deltaTime);
-               // velocity = sqrt((dane.x * dane.x) + (dane.y * dane.y));
-               
+                // velocity = sqrt((dane.x * dane.x) + (dane.y * dane.y));
+                velocity1.y += 981.0f * deltaTime;
+                if (cialo.velocity.x > 0)
+                {
+                    cialo.velocity.x -= 0.02f;
+                }
+                if (cialo.velocity.x < 0)
+                {
+                    cialo.velocity.x += 0.02f;
+                }
                 block1.GetCollider().CheckCollision(cialo.GetCollider(), 1.0f);
                 block2.GetCollider().CheckCollision(cialo.GetCollider(), 0.0f);
 
                 block1.Draw(window);
                 block2.Draw(window);
                 window.draw(napis3);
-                
+
                 cialo.Draw(window);
-                cialo.body.move(velocity1* deltaTime);
-                
+                cialo.body.move(velocity1 * deltaTime);
+
             }
             if (opcja == 4) {
                 std::cout << std::endl << std::endl << std::endl << "Aplikacja stworzona przez Dominike Lindenau oraz Dawida Gospodarek" << std::endl << std::endl << std::endl;
                 window.close();
             }
-           // velocitytext.setString("Predkosc ciala: " + std::to_string(velocity1));
+            // velocitytext.setString("Predkosc ciala: " + std::to_string(velocity1));
             forcetext.setString("Sila dzialajaca na cialo: " + std::to_string(force));
             accelerationtext.setString("Przyspiesznie ciala: " + std::to_string(acceleration));
         }

@@ -22,15 +22,15 @@ Cialo::~Cialo()
 //pobieram znaki z klawiatury ktore beda odpowiadaly poruszaniu sie playera, warunkujê jaka predkosc ma osiagnac player w danych kierunkach
 void Cialo::update1(float deltaTime)
 {
-	velocity.x = 0.0f;
+	
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		velocity.x -= speed;
+		velocity.x =- speed;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		velocity.x = speed;
+		velocity.x =+ speed;
 	}
 	if (body.getPosition().y + body.getSize().y <= GroundHeight)
 	{
@@ -46,6 +46,54 @@ void Cialo::update1(float deltaTime)
 	body.move(velocity * deltaTime);
 }
 
+void Cialo::update2(float deltaTime)
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		velocity.x = -speed;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		velocity.x = +speed;
+	}
+	if (body.getPosition().y + body.getSize().y <= GroundHeight)
+	{
+		velocity.y += 981.0f * deltaTime;
+	}
+	else
+	{
+		body.setPosition(body.getPosition().x, GroundHeight - body.getSize().y);
+		velocity.y = 0;
+	}
+
+
+	body.move(velocity * deltaTime);
+}
+void Cialo::update3(float deltaTime)
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		velocity.x = -speed;
+		
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		velocity.x = +speed;
+		
+	}
+	if (body.getPosition().y + body.getSize().y <= GroundHeight)
+	{
+		velocity.y += 981.0f * deltaTime;
+	}
+	else
+	{
+		body.setPosition(body.getPosition().x, GroundHeight - body.getSize().y);
+		velocity.y = 0;
+	}
+
+
+	body.move(velocity * deltaTime);
+}
 
 void Cialo::Draw(sf::RenderWindow& window)
 {

@@ -10,6 +10,8 @@ public:
 	~Cialo();
 
 	void update1(float deltaTime);
+	void update2(float deltaTime);
+	void update3(float deltaTime);
 	void Draw(sf::RenderWindow& window);
 	void OnCollision(sf::Vector2f direction);
 	sf::Vector2f GetPosition()
@@ -21,6 +23,7 @@ public:
 		return Collider(body);
 	}
 		sf::RectangleShape body;
+		sf::Vector2f velocity;
 private:
 	
 	
@@ -28,7 +31,7 @@ private:
 	bool faceRight;
 	int GroundHeight=400;
 
-	sf::Vector2f velocity;
+	
 	bool canJump;
 	float jumpHeight;
 };
