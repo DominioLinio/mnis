@@ -6,6 +6,7 @@
 #include <SFML\System.hpp>
 #include "player.h"
 #include "Collider.h"
+#include <string>
 
 int main() {
 
@@ -14,7 +15,7 @@ int main() {
     if (!font.loadFromFile("arial.ttf"))
         throw("couldnt load the font");
     sf::Texture cialotexture;
-    cialotexture.loadFromFile("coin.gif");
+    cialotexture.loadFromFile("ball.png");
 
     //stworzenie napisów
     sf::Text tytul;
@@ -25,6 +26,9 @@ int main() {
     sf::Text napis1;
     sf::Text napis2;
     sf::Text napis3;
+    sf::Text velocitytext;
+    sf::Text forcetext;
+    sf::Text accelerationtext;
 
     tytul.setFont(font);
     opcja1.setFont(font);
@@ -34,7 +38,9 @@ int main() {
     napis1.setFont(font);
     napis2.setFont(font);
     napis3.setFont(font);
-   
+    velocitytext.setFont(font);
+    forcetext.setFont(font);
+    accelerationtext.setFont(font);
 
     //Nadanie napisom tekstu
     tytul.setString("III Zasady Dynamiki Newtona");
@@ -64,6 +70,9 @@ int main() {
     napis1.setFillColor(sf::Color::White);
     napis2.setFillColor(sf::Color::White);
     napis3.setFillColor(sf::Color::White);
+    velocitytext.setFillColor(sf::Color::White);
+    forcetext.setFillColor(sf::Color::White);
+    accelerationtext.setFillColor(sf::Color::White);
 
     //Ustawianie napisów
     tytul.setPosition(sf::Vector2f(220.0, 50.0));
@@ -74,12 +83,20 @@ int main() {
     napis1.setPosition(sf::Vector2f(600.0, 0.0));
     napis2.setPosition(sf::Vector2f(600.0, 0.0));
     napis3.setPosition(sf::Vector2f(600.0, 0.0));
-    Cialo cialo(&cialotexture, sf::Vector2u(1, 13), 0.3f, 10.0f, 0.0f);
+    velocitytext.setPosition(sf::Vector2f(10.0, 100.0));
+    forcetext.setPosition(sf::Vector2f(10.0, 150.0));
+    accelerationtext.setPosition(sf::Vector2f(10.0, 200.0));
+    Cialo cialo(&cialotexture, 50.0f, 0.0f);
 
     //zmienne
+    int GroundHeight = 400;
     int opcja = 1;
     bool in_menu = true;
     bool good = true;
+    float force = 0.0;
+    int mass = 100;
+    int acceleration = 0;
+    sf::Vector2f velocity1(sf::Vector2f(0, 0));
 
     float deltaTime = 0.0f;
     sf::Clock clock;
@@ -109,15 +126,40 @@ int main() {
                     }
                     if (evnt.key.code == sf::Keyboard::Enter or evnt.key.code == sf::Keyboard::Space) {
                         in_menu = false;
+                        if (opcja != 4) {
+                            std::cout << "Wybrano opcje " << opcja << std::endl;
+                        }
                     }
                     good = false;
+                }
+                if (!in_menu) {
+                    if (evnt.key.code == sf::Keyboard::A) {
+                        if (force > -20.0) {
+                            force -= 0.01;
+                        }
+                    }
+                    if (evnt.key.code == sf::Keyboard::D) {
+                        if (force < 20.0) {
+                            force += 0.01;
+                        }
+                    }
+                }
+                if (evnt.key.code == sf::Keyboard::Escape) {
+                    if (in_menu) {
+                        opcja = 4;
+                        in_menu = false;
+                    }
+                    else if (!in_menu) {
+                        opcja = 1;
+                        in_menu = true;
+                    }
+
                 }
             }
             if (evnt.type == evnt.KeyReleased) {
                 good = true;
             }
         }
-        std::cout << opcja;
         if (in_menu) {
             if (opcja == 1)
             {
@@ -127,28 +169,28 @@ int main() {
                 opcja4.setFillColor(sf::Color::White);
                 //cialo.update1(deltaTime);
             }
-                
-           if (opcja ==2){
+
+            if (opcja == 2) {
                 opcja1.setFillColor(sf::Color::White);
                 opcja2.setFillColor(sf::Color::Red);
                 opcja3.setFillColor(sf::Color::White);
                 opcja4.setFillColor(sf::Color::White);
                 //cialo.update2(deltaTime);
-           }
-           if (opcja == 3) {
-               opcja1.setFillColor(sf::Color::White);
-               opcja2.setFillColor(sf::Color::White);
-               opcja3.setFillColor(sf::Color::Red);
-               opcja4.setFillColor(sf::Color::White);
-               //cialo.update3(deltaTime);
-           }
-           if (opcja == 4) {
-               opcja1.setFillColor(sf::Color::White);
-               opcja2.setFillColor(sf::Color::White);
-               opcja3.setFillColor(sf::Color::White);
-               opcja4.setFillColor(sf::Color::Red);
-           }
-          
+            }
+            if (opcja == 3) {
+                opcja1.setFillColor(sf::Color::White);
+                opcja2.setFillColor(sf::Color::White);
+                opcja3.setFillColor(sf::Color::Red);
+                opcja4.setFillColor(sf::Color::White);
+                //cialo.update3(deltaTime);
+            }
+            if (opcja == 4) {
+                opcja1.setFillColor(sf::Color::White);
+                opcja2.setFillColor(sf::Color::White);
+                opcja3.setFillColor(sf::Color::White);
+                opcja4.setFillColor(sf::Color::Red);
+            }
+
             window.draw(tytul);
             window.draw(opcja1);
             window.draw(opcja2);
@@ -156,17 +198,52 @@ int main() {
             window.draw(opcja4);
         }
         else {
-            if (opcja != 4) {
-                std::cout << "Wybrano opcję " << opcja << std::endl;
+            if (opcja == 1) {
+                velocity1.y += 981.0f * deltaTime;
+                cialo.update1(deltaTime);
+                cialo.Draw(window);
+               // acceleration = force / mass;
+                if (cialo.body.getPosition().y + cialo.body.getSize().y <= GroundHeight)
+                {
+                    velocity1.y += 981.0f * deltaTime;
+                }
+                else
+                {
+                    cialo.body.setPosition(cialo.body.getPosition().x, GroundHeight - cialo.body.getSize().y);
+                    velocity1.y = 0;
+                }
+
+                cialo.body.move(velocity1 * deltaTime);
+                
+                //cialo.velocity.x += acceleration * deltaTime;
+                //velocity = sqrt((predkosc.x * predkosc.x) + (predkosc.y * predkosc.y));
+                window.draw(napis1);
             }
-            switch (opcja) {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
+            if (opcja == 2) {
+                if (force != 0) {
+                    acceleration = force / mass;
+                }
+               // if (cialo.GetVelocity() > 0) {
+                 //   acceleration -= 0.005 / mass;
+               // }
+                //else if (cialo.GetVelocity() < 0) {
+                 //   acceleration += 0.005 / mass;
+               // }
+                //cialo.velocity.x += acceleration * deltaTime;
+                //velocity = sqrt((predkosc.x * predkosc.x) + (predkosc.y * predkosc.y));
+                window.draw(napis2);
+            }
+            if (opcja == 3) {
+               // velocity = sqrt((dane.x * dane.x) + (dane.y * dane.y));
+                window.draw(napis3);
+            }
+            if (opcja == 4) {
                 std::cout << std::endl << std::endl << std::endl << "Aplikacja stworzona przez Dominike Lindenau oraz Dawida Gospodarek" << std::endl << std::endl << std::endl;
                 window.close();
             }
+           // velocitytext.setString("Predkosc ciala: " + std::to_string(velocity1));
+            forcetext.setString("Sila dzialajaca na cialo: " + std::to_string(force));
+            accelerationtext.setString("Przyspiesznie ciala: " + std::to_string(acceleration));
         }
 
         window.display();
