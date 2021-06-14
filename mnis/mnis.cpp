@@ -6,6 +6,7 @@
 #include <SFML\System.hpp>
 #include "player.h"
 #include "Collider.h"
+#include "Platform.h"
 #include <string>
 
 int main() {
@@ -16,6 +17,8 @@ int main() {
         throw("couldnt load the font");
     sf::Texture cialotexture;
     cialotexture.loadFromFile("ball.png");
+    sf::Texture blockTexture;
+    blockTexture.loadFromFile("box.jpg");
 
     //stworzenie napisów
     sf::Text tytul;
@@ -74,19 +77,24 @@ int main() {
     forcetext.setFillColor(sf::Color::White);
     accelerationtext.setFillColor(sf::Color::White);
 
+
     //Ustawianie napisów
     tytul.setPosition(sf::Vector2f(220.0, 50.0));
     opcja1.setPosition(sf::Vector2f(600.0, 200.0));
     opcja2.setPosition(sf::Vector2f(590.0, 350.0));
     opcja3.setPosition(sf::Vector2f(580.0, 500.0));
     opcja4.setPosition(sf::Vector2f(650.0, 650.0));
-    napis1.setPosition(sf::Vector2f(600.0, 0.0));
-    napis2.setPosition(sf::Vector2f(600.0, 0.0));
-    napis3.setPosition(sf::Vector2f(600.0, 0.0));
+    napis1.setPosition(sf::Vector2f(300.0, 0.0));
+    napis2.setPosition(sf::Vector2f(290.0, 0.0));
+    napis3.setPosition(sf::Vector2f(280.0, 0.0));
     velocitytext.setPosition(sf::Vector2f(10.0, 100.0));
     forcetext.setPosition(sf::Vector2f(10.0, 150.0));
     accelerationtext.setPosition(sf::Vector2f(10.0, 200.0));
-    Cialo cialo(&cialotexture, 50.0f, 0.0f);
+    
+    //Wywoływanie klas obiektów
+    Cialo cialo(&cialotexture, 120.0f, 0.0f);
+    Block block1(&blockTexture, sf::Vector2f(80.0f, 80.0f), sf::Vector2f(250.0f, 320.0f));
+    Block block2(&blockTexture, sf::Vector2f(80.0f, 80.0f), sf::Vector2f(700.0f, 320.0f));
 
     //zmienne
     int GroundHeight = 400;
@@ -200,26 +208,21 @@ int main() {
         else {
             if (opcja == 1) {
                 velocity1.y += 981.0f * deltaTime;
-                cialo.update1(deltaTime);
-                cialo.Draw(window);
+                
                // acceleration = force / mass;
-                if (cialo.body.getPosition().y + cialo.body.getSize().y <= GroundHeight)
-                {
-                    velocity1.y += 981.0f * deltaTime;
-                }
-                else
-                {
-                    cialo.body.setPosition(cialo.body.getPosition().x, GroundHeight - cialo.body.getSize().y);
-                    velocity1.y = 0;
-                }
 
-                cialo.body.move(velocity1 * deltaTime);
+                
                 
                 //cialo.velocity.x += acceleration * deltaTime;
                 //velocity = sqrt((predkosc.x * predkosc.x) + (predkosc.y * predkosc.y));
                 window.draw(napis1);
+                cialo.update1(deltaTime);
+                cialo.Draw(window);
+                cialo.body.move(velocity1 * deltaTime);
             }
             if (opcja == 2) {
+                velocity1.y += 981.0f * deltaTime;
+                
                 if (force != 0) {
                     acceleration = force / mass;
                 }
@@ -232,10 +235,24 @@ int main() {
                 //cialo.velocity.x += acceleration * deltaTime;
                 //velocity = sqrt((predkosc.x * predkosc.x) + (predkosc.y * predkosc.y));
                 window.draw(napis2);
+                cialo.update1(deltaTime);
+                cialo.Draw(window);
+                cialo.body.move(velocity1* deltaTime);
             }
             if (opcja == 3) {
+                cialo.update1(deltaTime);
                // velocity = sqrt((dane.x * dane.x) + (dane.y * dane.y));
+               
+                block1.GetCollider().CheckCollision(cialo.GetCollider(), 1.0f);
+                block2.GetCollider().CheckCollision(cialo.GetCollider(), 0.0f);
+
+                block1.Draw(window);
+                block2.Draw(window);
                 window.draw(napis3);
+                
+                cialo.Draw(window);
+                cialo.body.move(velocity1* deltaTime);
+                
             }
             if (opcja == 4) {
                 std::cout << std::endl << std::endl << std::endl << "Aplikacja stworzona przez Dominike Lindenau oraz Dawida Gospodarek" << std::endl << std::endl << std::endl;

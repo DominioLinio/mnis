@@ -3,11 +3,11 @@
 #include "Collider.h"
 
 
-class Platform
+class Block
 {
 public:
-	Platform(sf::Texture* texture, sf::Vector2f size, sf::Vector2f position);
-	~Platform();
+	Block(sf::Texture* texture, sf::Vector2f size, sf::Vector2f position);
+	~Block();
 
 	void Draw(sf::RenderWindow& window);
 

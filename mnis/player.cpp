@@ -1,5 +1,5 @@
 #include "player.h"
-#include "animacja.h"
+
 
 Cialo::Cialo(sf::Texture* texture, float speed, float jumpHeight)
 {
@@ -8,8 +8,8 @@ Cialo::Cialo(sf::Texture* texture, float speed, float jumpHeight)
 
 	faceRight = true;
 
-	body.setSize(sf::Vector2f(70.0f, 70.0f));
-	body.setPosition(128.0f, 128.0f);
+	body.setSize(sf::Vector2f(80.0f, 80.0f));
+	body.setPosition(500.0f, 128.0f);
 	body.setOrigin(35.0f, 35.0f);
 	body.setTexture(texture);
 
@@ -32,7 +32,15 @@ void Cialo::update1(float deltaTime)
 	{
 		velocity.x = speed;
 	}
-	
+	if (body.getPosition().y + body.getSize().y <= GroundHeight)
+	{
+		velocity.y += 981.0f * deltaTime;
+	}
+	else
+	{
+		body.setPosition(body.getPosition().x, GroundHeight - body.getSize().y);
+		velocity.y = 0;
+	}
 
 
 	body.move(velocity * deltaTime);
