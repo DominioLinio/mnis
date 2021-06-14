@@ -206,7 +206,9 @@ int main() {
             window.draw(opcja4);
         }
         else {
+
             if (opcja == 1) {
+             // W danym przypadku uznajemy ruch kulki jako jednostajny prostoliniowy.
                 velocity1.y += 981.0f * deltaTime;
                 sf::Text predkosckulki;
                 predkosckulki.setFont(font);
@@ -229,6 +231,7 @@ int main() {
                 cialo.body.move(velocity1 * deltaTime);
             }
             if (opcja == 2) {
+                //W danym przypadku na Ciało działa siła początkowa (nadana klawiszem) która równoważy się z siłą oporu powietrza. po puszczeniu klawisza kulka zaczyna spowalniać, ponieważ siła wypadkowa jest ujemna.
                 sf::Text predkosckulki1;
                 predkosckulki1.setFont(font);
                 predkosckulki1.setString("Predkosc kulki = (F/m)*t \n W inercjalnym ukladzie odniesienia jesli sily dzialajace na cialo nie rownowaza sie \n(czyli wypadkowa sil Fw jest rozna od zera), to cialo porusza sie z przyspieszeniem wprost proporcjonalnym do sily\n wypadkowej, a odwrotnie proporcjonalnym do masy ciala.");
@@ -263,6 +266,9 @@ int main() {
                 cialo.body.move(velocity1 * deltaTime);
             }
             if (opcja == 3) {
+                //W danym przypadku na Ciało działa siła początkowa (nadana klawiszem) która równoważy się z siłą oporu powietrza. po puszczeniu klawisza kulka zaczyna spowalniać, 
+                //ponieważ siła wypadkowa jest ujemna. Po napotknięciu się na blok z prawej strony o wadze znacznie mniejszej od wagi kulki, block przesuwa się wraz z nią nadając 
+                //jej siłę minimalnie mniejszą od własnej. W przypadku Napotknięcia się na blok lewy, który jest znacząco cięższy od kulki, kulka zatrzymuje się na nim.
                 sf::Text predkosckulki2;
                 predkosckulki2.setFont(font);
                 predkosckulki2.setString("Predkosc kulki = (F/m)*t\n Sila oporu dzialajaca na kulke = F\n Oddzialywania cial sa zawsze wzajemne. W inercjalnym ukladzie odniesienia sily wzajemnego oddzialywania\n dwoch cial maja takie same wartosci, taki sam kierunek, przeciwne zwroty i rozne punkty przylozenia\n(kazda dziala na inne cialo).");
